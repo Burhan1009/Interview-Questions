@@ -132,3 +132,136 @@ Interview, Certification preparation guide for Cloud DevOps professionals
 98. What is a dead-letter queue in SQS?
 99. What is the shared responsibility model in AWS?
 100. What is the difference between fault tolerance and high availability?
+
+## With Answers 
+
+Here are concise, interview-ready answers (2-3 lines each) for DevOps roles with 1.5-2 years experience:
+
+### **AWS**  
+1. **EC2 vs Lambda**:  
+   EC2 is a virtual server for long-running workloads. Lambda is serverless for event-driven tasks, scaling automatically with zero administration.
+
+3. **SG vs NACL**:  
+   Security Groups are stateful firewalls at instance level. NACLs are stateless subnet-level firewalls with explicit allow/deny rules.
+
+5. **Load Balancers**:  
+   ALB (HTTP/HTTPS), NLB (TCP/UDP performance), and Classic (legacy). Use ALB for web apps, NLB for high-throughput.
+
+7. **Public/Private Subnets**:  
+   Public subnets route traffic via Internet Gateway. Private subnets use NAT Gateway for outbound-only internet access.
+
+9. **AMI**:  
+   Template for EC2 instances. Create custom AMI by snapshotting a configured EC2 instance via AWS Console/CLI.
+
+---
+
+### **Docker**  
+11. **Docker vs VM**:  
+   Docker containers share the host OS kernel, making them lightweight. VMs virtualize hardware with full OS stacks.
+
+14. **Data Persistence**:  
+   Use Docker volumes (`docker volume create`) or bind mounts. Volumes survive container restarts/deletion.
+
+17. **Optimize Images**:  
+   Multi-stage builds, minimal base images (Alpine), and combine RUN commands to reduce layers.
+
+20. **Dockerfile Best Practices**:  
+   Use official images, non-root users, and `.dockerignore`. Order commands from least to most frequently changed.
+
+---
+
+### **Jenkins**  
+22. **Freestyle vs Pipeline**:  
+   Freestyle: Simple GUI jobs. Pipeline: Code-defined (Jenkinsfile) for complex CD workflows with stages.
+
+25. **Auto-Trigger Builds**:  
+   Configure GitHub webhooks or use "Poll SCM" in Jenkins. Triggers builds on code commit/push.
+
+28. **Deploy to AWS**:  
+   Use AWS CLI in Jenkins scripts or plugins like AWS CodeDeploy. Authenticate via IAM roles/credentials.
+
+30. **Archive Artifacts**:  
+   In Jenkinsfiles: `archiveArtifacts artifacts: '**/target/*.jar'`. Stores build outputs for later use.
+
+---
+
+### **CI/CD**  
+32. **Continuous Deployment**:  
+   Automated release of validated code to production. Requires robust testing and monitoring pipelines.
+
+35. **Blue-Green**:  
+   Two identical environments. Route traffic from old (blue) to new (green) after testing for zero-downtime.
+
+38. **Version Control**:  
+   Single source of truth for code/infrastructure. Enables traceability, rollbacks, and collaboration.
+
+---
+
+### **Terraform**  
+42. **Terraform vs CloudFormation**:  
+   Terraform is cloud-agnostic with HCL syntax. CloudFormation is AWS-specific using JSON/YAML.
+
+46. **Multiple Environments**:  
+   Use Terraform workspaces or directory structure (dev/prod) with variable files (`terraform.tfvars`).
+
+49. **terraform plan**:  
+   Preview infrastructure changes before apply. Essential for validation and change control.
+
+---
+
+### **Git**  
+52. **Pull vs Fetch**:  
+   `git fetch` retrieves remote changes without merging. `git pull` = fetch + merge (can cause conflicts).
+
+55. **Revert Commit**:  
+   `git revert <commit-hash>` creates new undo commit. Safer than reset for shared branches.
+
+59. **Squash Commits**:  
+   `git rebase -i HEAD~3`, mark commits as "squash". Combines multiple commits into one.
+
+---
+
+### **Real-Time Scenarios**  
+61. **CI/CD Pipeline**:  
+   Built Jenkins pipeline: GitHub → Build → Dockerize → ECS deploy. Used Terraform for AWS infrastructure.
+
+67. **Secure S3**:  
+   Block public access, bucket policies with IP restrictions, encryption (SSE-S3/KMS), and access logs.
+
+---
+
+### **Scripting**  
+72. **Bash Deployment Script**:  
+   ```bash
+   #!/bin/bash
+   aws s3 sync build/ s3://my-bucket/ --delete
+   aws cloudfront create-invalidation ...
+   ```
+
+79. **Service Health Check**:  
+   ```bash
+   curl -sf http://localhost:8080/health || exit 1
+   ```
+
+---
+
+### **DevOps Culture**  
+81. **Infrastructure as Code (IaC)**:  
+   Manage infrastructure via code (Terraform/CloudFormation). Enables versioning, reuse, and consistency.
+
+87. **Zero-Downtime Deployments**:  
+   Use blue-green, canary, or rolling updates. Validate health checks before traffic shift.
+
+---
+
+### **Advanced**  
+92. **Serverless**:  
+   Event-driven compute (Lambda). No server management, pay-per-use, auto-scaling.
+
+100. **FT vs HA**:  
+   Fault tolerance: System operates despite failures. High availability: Minimal downtime via redundancy.
+
+**Pro Tips**:  
+- Quantify achievements: "Reduced deployment time by 40% using Docker"  
+- For "Describe..." questions: Use **STAR** method (Situation, Task, Action, Result)  
+- Always mention security: "I encrypted S3 buckets and used IAM roles for least privilege"
