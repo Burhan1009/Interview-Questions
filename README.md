@@ -502,8 +502,6 @@ Interview, Certification preparation guide for Cloud DevOps professionals
 100. **Fault Tolerance vs High Availability**:  
      Fault Tolerance: Failures handle karna. High Availability: Minimal downtime.  
 
-Terraform Mostly asking Questions on my Last interview 
-
 # Terraform Most Important Interview Q/A’s
 
 ## 1) What is a State File in Terraform?
@@ -771,6 +769,380 @@ resource "aws_s3_bucket_versioning" "versioning" {
 * `terraform plan`
 * `terraform apply`
 * `terraform destroy`
+
+---
+
+## 11) What is Terraform Provider?
+
+A provider is a plugin that Terraform uses to interact with cloud platforms (AWS, Azure, GCP), services, or APIs.
+It defines resource types and data sources.
+
+Example:
+
+```
+provider "aws" {
+  region = "us-east-1"
+}
+```
+
+---
+
+## 12) What is Terraform Module?
+
+A module is a container for multiple resources that are used together.
+Modules help in:
+
+* Reusability
+* Code organization
+* Reducing duplication
+
+Example structure:
+
+```
+module "vpc" {
+  source = "./modules/vpc"
+}
+```
+
+---
+
+## 13) What is Remote Backend?
+
+A remote backend stores Terraform state in remote storage like:
+
+* AWS S3
+* Azure Blob
+* Terraform Cloud
+
+It supports features like state locking & team collaboration.
+
+---
+
+## 14) What is State Locking in Terraform?
+
+State locking prevents multiple users from modifying the state file at the same time.
+
+Examples of backends supporting locking:
+
+* AWS S3 + DynamoDB
+* Terraform Cloud
+* Consul
+
+---
+
+## 15) What is Drift in Terraform?
+
+Drift occurs when the actual infrastructure changes outside Terraform.
+Terraform detects drift during:
+
+* `terraform plan`
+* `terraform refresh`
+
+---
+
+## 16) What is Terraform Refresh?
+
+`terraform refresh` updates the state file with the real-world resource values.
+(No changes are applied to infrastructure.)
+
+---
+
+## 17) What is Output in Terraform?
+
+Outputs act as return values from Terraform.
+
+Example:
+
+```
+output "instance_ip" {
+  value = aws_instance.example.public_ip
+}
+```
+
+---
+
+## 18) What is Variable Validation?
+
+Terraform allows validation rules for input variables.
+
+Example:
+
+```
+variable "instance_type" {
+  type = string
+
+  validation {
+    condition = contains(["t2.micro", "t3.micro"], var.instance_type)
+    error_message = "Invalid instance type."
+  }
+}
+```
+
+---
+
+## 19) What is Terraform Graph?
+
+`terraform graph` generates a DOT graph showing resource relationships.
+Commonly used for debugging.
+
+Generate graph:
+
+```
+terraform graph > graph.dot
+```
+
+---
+
+## 20) What is Terraform Destroy?
+
+`terraform destroy` deletes all resources defined in the configuration.
+
+Example:
+
+```
+terraform destroy
+```
+
+---
+
+## 21) What is Terraform Workspace?
+
+Workspaces allow managing multiple state files within the same configuration.
+Useful for Dev, QA, Prod.
+
+Commands:
+
+```
+terraform workspace list
+terraform workspace new dev
+terraform workspace select prod
+```
+
+---
+
+## 22) What is Terraform Provisioner?
+
+Provisioners run scripts during resource creation or destruction.
+Types:
+
+* local-exec
+* remote-exec
+
+Example:
+
+```
+provisioner "local-exec" {
+  command = "echo Hello"
+}
+```
+
+---
+
+## 23) What is Terraform Lifecycle Meta-Argument?
+
+Controls resource behavior.
+
+Example:
+
+```
+lifecycle {
+  create_before_destroy = true
+  prevent_destroy       = true
+}
+```
+
+---
+
+## 24) What is create_before_destroy?
+
+Ensures a new resource is created **before** deleting the old one.
+Prevents downtime.
+
+---
+
+## 25) What is depends_on in Terraform?
+
+Forces explicit dependency between resources.
+
+Example:
+
+```
+depends_on = [aws_iam_role.example]
+```
+
+---
+
+## 26) What is Terraform Remote Execution (Terraform Cloud)?
+
+Runs plan & apply remotely through Terraform Cloud.
+Supports:
+
+* RBAC
+* VCS integration
+* Remote state management
+
+---
+
+## 27) Difference Between Terraform and CloudFormation?
+
+| Feature     | Terraform | CloudFormation |
+| ----------- | --------- | -------------- |
+| Multi-Cloud | Yes       | No             |
+| Language    | HCL       | JSON/YAML      |
+| State File  | Yes       | No             |
+| Modular     | Yes       | Yes            |
+
+---
+
+## 28) What is Terraform fmt?
+
+Formats Terraform code to standard style.
+
+Command:
+
+```
+terraform fmt
+```
+
+---
+
+## 29) What is Terraform validate?
+
+Validates syntax correctness of Terraform files.
+
+Command:
+
+```
+terraform validate
+```
+
+---
+
+## 30) What is Terraform Targeting?
+
+Runs plan/apply for specific resources.
+
+Command:
+
+```
+terraform apply -target=aws_instance.example
+```
+
+---
+
+## 31) What is Sensitive Argument?
+
+Hides output values containing secrets.
+
+Example:
+
+```
+output "db_password" {
+  value     = var.password
+  sensitive = true
+}
+```
+
+---
+
+## 32) What are Terraform Functions?
+
+Built-in functions used for string, list, map, and number operations.
+Examples:
+
+* `length()`
+* `lower()`
+* `merge()`
+* `toset()`
+
+---
+
+## 33) What is Terraform Registry?
+
+A public repository for:
+
+* Providers
+* Modules
+* Policies
+
+Website: registry.terraform.io
+
+---
+
+## 34) What are Terraform Expressions?
+
+Used to compute and transform values.
+
+Example:
+
+```
+length(var.list) > 2 ? "large" : "small"
+```
+
+---
+
+## 35) What is Terraform Null Provider?
+
+Used for:
+
+* Running scripts
+* Creating triggers
+* Orchestrating external actions
+
+---
+
+## 36) What is Inheritance of Variables?
+
+Child modules receive variables from parent module using input variables.
+
+Example in child:
+
+```
+variable "vpc_id" {}
+```
+
+Parent sends:
+
+```
+vpc_id = module.vpc.id
+```
+
+---
+
+## 37) What is Terraform Refresh-only Mode?
+
+Used to update state without modifying resources.
+
+Command:
+
+```
+terraform apply -refresh-only
+```
+
+---
+
+## 38) What is Terraform Override File?
+
+Files ending with `*_override.tf` override existing configuration.
+Common in dynamic setups.
+
+---
+
+## 39) What is Terraform Output Used For?
+
+* Passing values between modules
+* Showing important info post-deployment
+* CI/CD integrations
+
+---
+
+## 40) What’s the Difference Between Variables and Locals?
+
+| Feature    | Variables    | Locals                   |
+| ---------- | ------------ | ------------------------ |
+| Purpose    | Input values | Internal reusable values |
+| User input | Yes          | No                       |
+| Override   | Yes          | No                       |
 
 ---
 
